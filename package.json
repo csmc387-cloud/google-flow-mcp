@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "setup": "node index.js --setup",
     "login": "node index.js --login",
     "status": "node index.js --status",
     "test": "node test/test-connection.js"
