@@ -1,25 +1,30 @@
-# 🎬 Google Flow MCP
+# 🎬 Google Flow MCP Template
 
-> **High-Performance Background MCP Server for Google Flow (`flow.google.com`)**  
-> Seamless, silent browser automation for Google's AI creative studio (Veo & Imagen). Runs 100% in the background without popups or manual port wrangling.
+> **Universal, High-Performance Background MCP Server & Browser Bridge**  
+> Seamless, silent browser automation for **Google Flow (`flow.google.com`)** (Veo 3.1 & Imagen) and any modern web application.  
+> Runs 100% headlessly in the background without popups or manual port wrangling. Ready to use as a **GitHub Template**.
 
+[![Use this template](https://img.shields.io/badge/GitHub-Use_this_template-2ea44f?style=for-the-badge&logo=github)](https://github.com/csmc387-cloud/google-flow-mcp/generate)
 [![MCP](https://img.shields.io/badge/MCP-1.1.0-blue.svg)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests: Passing](https://img.shields.io/badge/Tests-7%2F7_Passed-brightgreen.svg)]()
 
 ---
 
-## ⚡ Why This Exists
+## ⚡ Why This Template Exists
 
-Google Flow provides state-of-the-art video (**Veo 3.1**) and image (**Imagen / Nano Banana**) generation, but lacks a public REST API. Standard browser automation tools either:
-1. Pop up disruptive browser windows right across your desktop.
+Google Flow and other AI creative studios provide cutting-edge generation, but lack public REST APIs. Standard automation tools usually:
+1. Pop up disruptive browser windows across your screen.
 2. Require tedious manual Chrome terminal flags (`--remote-debugging-port=9222`) before every launch.
-3. Dump massive, slow DOM accessibility trees into LLM context windows.
+3. Are hardcoded to one operating system or one browser.
 
-**Google Flow MCP** solves all three:
+**Google Flow MCP Template** is a universal, ready-to-fork solution:
 * 🥷 **Silent Background Execution:** Runs modern Chromium in headless mode (`--headless=new`). Zero windows popping up on your screen.
+* 🌐 **Cross-Platform & Multi-Browser:** Automatically detects **Google Chrome, Chromium, Arc, Brave, and Edge** on **macOS, Linux, and Windows**, with optional `BROWSER_PATH` override.
 * 🔄 **Seamless Auto-Connection:** Automatically discovers running debugging sessions or self-heals by spawning a quiet headless instance. No manual port setup needed.
 * 🔐 **Persistent Authentication:** Saves Google login cookies & tokens to `~/.google-flow-mcp/profile`. Authenticate once, and subsequent generations run automatically in the background.
-* 🚀 **Lean & Fast:** Reduced from ~600 lines of monolithic code to ~260 lines of modular, asynchronous ES modules. Lightweight, sub-second responses.
+* 🧪 **Built-in Universal Test Suite:** Verify browser discovery, headless lifecycle, DOM inspection, and screenshot capture in 5 seconds with `npm test`.
+* 🎯 **Custom Target URL:** Defaults to Google Flow, but can bridge **any web application** simply by setting `FLOW_URL` or `TARGET_URL`.
 
 ---
 
@@ -29,54 +34,63 @@ Google Flow provides state-of-the-art video (**Veo 3.1**) and image (**Imagen / 
 | :--- | :--- |
 | `flow_status` | Checks background browser connection, current page, and login status. |
 | `flow_launch_browser` | Switches execution modes (`headed: true` for 1-time login, or `headed: false` for background headless). |
-| `flow_open_tab` | Navigates or focuses `https://flow.google.com`. |
+| `flow_open_tab` | Navigates or focuses `https://flow.google.com` (or your custom target URL). |
 | `flow_inspect_canvas` | Returns structured, lightweight JSON of prompt inputs, action buttons, and canvas nodes. |
 | `flow_execute_prompt` | Injects prompts into Google Flow's generation bar and submits them seamlessly. |
 | `flow_click` | Precision click handler using CSS selectors, text matches, or aria-labels. |
 | `flow_screenshot` | Captures background high-res screenshots and saves to disk. |
-| `flow_eval_js` | Runs custom JavaScript in the active Flow page context. |
+| `flow_eval_js` | Runs custom JavaScript in the active page context. |
 
 ---
 
-## 🚀 Quickstart
+## 🚀 Quickstart for Anyone
 
-### 1. Installation
+### 1. Create Your Own Repo from this Template
+Click the green [**Use this template**](https://github.com/csmc387-cloud/google-flow-mcp/generate) button on GitHub, then clone your repository:
 ```bash
-git clone https://github.com/csmc387-cloud/google-flow-mcp.git
-cd google-flow-mcp
+git clone https://github.com/<your-username>/<your-repo-name>.git
+cd <your-repo-name>
 npm install
 ```
 
-### 2. One-Time Google Authentication
-To authenticate your Google account once into the persistent session profile:
+### 2. Test Your Browser Connection
+Run the universal test suite to verify your local browser discovery and background connectivity:
+```bash
+npm test
+```
+Outputs:
+```text
+🧪 Starting Google Flow MCP Universal Connection Test
+
+  [1] Testing: Browser Executable Discovery... ✔ PASSED
+  [2] Testing: Headless Background Lifecycle... ✔ PASSED
+  [3] Testing: Target Page Navigation & Auth State... ✔ PASSED
+  [4] Testing: Workspace Inspection & Node Parsing... ✔ PASSED
+  [5] Testing: Page Context JavaScript Evaluation... ✔ PASSED
+  [6] Testing: Silent Background Screenshot Capture... ✔ PASSED
+  [7] Testing: Graceful Teardown & Resource Cleanup... ✔ PASSED
+
+🎉 ALL TESTS PASSED (7/7)
+```
+
+### 3. One-Time Google Authentication
+To log into your Google Account so Flow sessions persist:
 ```bash
 npm run login
 ```
 Sign in to Google Flow in the opened window, then press `Ctrl+C`. Your session is permanently saved to `~/.google-flow-mcp/profile`.
 
-### 3. Verify Background Status
+### 4. Verify Background Status
 ```bash
 npm run status
-```
-Outputs:
-```json
-{
-  "status": "connected",
-  "mode": "headless",
-  "url": "https://flow.google.com/about",
-  "title": "Google Flow - AI Creative Studio for Video, Images & Custom Tools",
-  "isLoggedIn": true,
-  "hint": "Google Flow ready for background generation."
-}
 ```
 
 ---
 
-## ⚙️ MCP Configuration
+## ⚙️ MCP Host Configuration
 
-Add this server to your Antigravity, Claude Desktop, or Cursor MCP configuration:
+Add this server to your Antigravity, Claude Desktop, Cursor, or Windsurf MCP configuration:
 
-### Antigravity / Claude Desktop (`mcp_config.json`):
 ```json
 {
   "mcpServers": {
@@ -92,16 +106,33 @@ Add this server to your Antigravity, Claude Desktop, or Cursor MCP configuration
 
 ---
 
-## 📂 Project Architecture
+## 🔧 Environment Variables
+
+Copy `.env.example` to configure custom behavior:
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `BROWSER_PATH` | Explicit path to a browser binary | Auto-detected |
+| `FLOW_DEBUG_PORT` | Remote debugging port | `9222` |
+| `FLOW_URL` | Target web application URL | `https://flow.google.com` |
+| `FLOW_PROFILE_DIR` | Session and cookie persistence directory | `~/.google-flow-mcp/profile` |
+
+---
+
+## 📂 Project Structure
 
 ```
 google-flow-mcp/
 ├── index.js             # Root executable entry point
-├── package.json         # Scripts, metadata, dependencies
-├── README.md            # Documentation & setup guide
+├── package.json         # Scripts ("start", "login", "status", "test"), deps
+├── README.md            # Universal template documentation
 ├── LICENSE              # MIT License
+├── .gitignore           # Ignores profiles, screenshots, logs, node_modules
+├── .env.example         # Example configuration options
+├── test/
+│   └── test-connection.js # Automated 7-step connection test suite
 └── src/
-    ├── browser.js       # Background browser lifecycle & persistent profile manager
+    ├── browser.js       # Cross-platform browser discovery & headless lifecycle
     ├── flow.js          # Google Flow semantic DOM actions & prompt injection
     └── index.js         # Model Context Protocol stdio server & tool dispatchers
 ```

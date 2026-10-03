@@ -1,7 +1,7 @@
 {
   "name": "google-flow-mcp",
   "version": "1.1.0",
-  "description": "High-performance, seamless background MCP server for Google Flow (Veo & Imagen)",
+  "description": "High-performance, cross-platform template MCP server for Google Flow (Veo & Imagen) and browser automation",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node index.js",
     "login": "node index.js --login",
-    "status": "node index.js --status"
+    "status": "node index.js --status",
+    "test": "node test/test-connection.js"
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,14 @@
   },
   "keywords": [
     "mcp",
+    "template",
     "google-flow",
     "veo",
     "imagen",
     "modelcontextprotocol",
-    "playwright",
+    "browser-automation",
     "puppeteer",
-    "automation"
+    "playwright"
   ],
   "author": "csmc387-cloud",
   "license": "MIT",
