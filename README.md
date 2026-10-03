@@ -1,4 +1,4 @@
-# 🎬 Google Slow MCP
+# 🎬 Google Flow MCP
 
 > **High-Performance Background MCP Server for Google Flow (`flow.google.com`)**  
 > Seamless, silent browser automation for Google's AI creative studio (Veo & Imagen). Runs 100% in the background without popups or manual port wrangling.
@@ -15,7 +15,7 @@ Google Flow provides state-of-the-art video (**Veo 3.1**) and image (**Imagen / 
 2. Require tedious manual Chrome terminal flags (`--remote-debugging-port=9222`) before every launch.
 3. Dump massive, slow DOM accessibility trees into LLM context windows.
 
-**Google Slow MCP** solves all three:
+**Google Flow MCP** solves all three:
 * 🥷 **Silent Background Execution:** Runs modern Chromium in headless mode (`--headless=new`). Zero windows popping up on your screen.
 * 🔄 **Seamless Auto-Connection:** Automatically discovers running debugging sessions or self-heals by spawning a quiet headless instance. No manual port setup needed.
 * 🔐 **Persistent Authentication:** Saves Google login cookies & tokens to `~/.google-flow-mcp/profile`. Authenticate once, and subsequent generations run automatically in the background.
@@ -42,8 +42,8 @@ Google Flow provides state-of-the-art video (**Veo 3.1**) and image (**Imagen / 
 
 ### 1. Installation
 ```bash
-git clone https://github.com/csmc387-cloud/google-slow-mcp.git
-cd google-slow-mcp
+git clone https://github.com/csmc387-cloud/google-flow-mcp.git
+cd google-flow-mcp
 npm install
 ```
 
@@ -83,7 +83,7 @@ Add this server to your Antigravity, Claude Desktop, or Cursor MCP configuration
     "google-flow": {
       "command": "node",
       "args": [
-        "/absolute/path/to/google-slow-mcp/index.js"
+        "/absolute/path/to/google-flow-mcp/index.js"
       ]
     }
   }
@@ -95,7 +95,7 @@ Add this server to your Antigravity, Claude Desktop, or Cursor MCP configuration
 ## 📂 Project Architecture
 
 ```
-google-slow-mcp/
+google-flow-mcp/
 ├── index.js             # Root executable entry point
 ├── package.json         # Scripts, metadata, dependencies
 ├── README.md            # Documentation & setup guide

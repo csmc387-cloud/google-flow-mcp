@@ -1,11 +1,11 @@
 {
-  "name": "google-slow-mcp",
+  "name": "google-flow-mcp",
   "version": "1.1.0",
   "description": "High-performance, seamless background MCP server for Google Flow (Veo & Imagen)",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "google-slow-mcp": "./index.js"
+    "google-flow-mcp": "./index.js"
   },
   "scripts": {
     "start": "node index.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/csmc387-cloud/google-slow-mcp.git"
+    "url": "git+https://github.com/csmc387-cloud/google-flow-mcp.git"
   },
   "keywords": [
     "mcp",
