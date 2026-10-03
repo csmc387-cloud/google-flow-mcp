@@ -1,0 +1,35 @@
+{
+  "name": "google-slow-mcp",
+  "version": "1.1.0",
+  "description": "High-performance, seamless background MCP server for Google Flow (Veo & Imagen)",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "google-slow-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "login": "node index.js --login",
+    "status": "node index.js --status"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csmc387-cloud/google-slow-mcp.git"
+  },
+  "keywords": [
+    "mcp",
+    "google-flow",
+    "veo",
+    "imagen",
+    "modelcontextprotocol",
+    "playwright",
+    "puppeteer",
+    "automation"
+  ],
+  "author": "csmc387-cloud",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.31.0",
+    "puppeteer-core": "^25.12.0"
+  }
+}
