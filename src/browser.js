@@ -26,12 +26,13 @@ export function getBrowserExecutable() {
   if (platform === 'darwin') {
     candidates.push(
       '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-      '/Applications/Arc.app/Contents/MacOS/Arc',
+      '/Applications/Chromium.app/Contents/MacOS/Chromium',
       '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser',
       '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
-      '/Applications/Chromium.app/Contents/MacOS/Chromium',
       path.join(os.homedir(), 'Applications/Google Chrome.app/Contents/MacOS/Google Chrome'),
-      path.join(os.homedir(), 'Applications/Brave Browser.app/Contents/MacOS/Brave Browser')
+      path.join(os.homedir(), 'Applications/Brave Browser.app/Contents/MacOS/Brave Browser'),
+      path.join(os.homedir(), 'Library/Caches/ms-playwright/chromium-1234/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'),
+      '/Applications/Arc.app/Contents/MacOS/Arc'
     );
   } else if (platform === 'win32') {
     const programFiles = process.env['ProgramFiles'] || 'C:\\Program Files';
@@ -117,11 +118,20 @@ export async function getBrowser({ port = DEFAULT_PORT, headed = false, forceRes
   const execPath = getBrowserExecutable();
   isHeadless = !headed;
 
+  if (execPath.includes('Arc') && isHeadless) {
+    throw new Error(
+      'Arc browser does not support headless CLI execution. To use Arc, please run Arc with --remote-debugging-port=' +
+        port +
+        ' to attach directly, or use Google Chrome, Brave, Edge, or Chromium for silent background automation.'
+    );
+  }
+
   activeBrowser = await puppeteer.launch({
     headless: isHeadless ? 'new' : false,
     executablePath: execPath,
     userDataDir: PROFILE_DIR,
     defaultViewport: null,
+    timeout: 15000,
     args: [
       `--remote-debugging-port=${port}`,
       '--no-first-run',
@@ -148,7 +158,7 @@ function hookDisconnect(browser) {
  * Finds or navigates to the target page (Google Flow or any configured URL).
  */
 export async function getFlowPage(browser, targetUrl = DEFAULT_URL) {
-  if (activePage && !activePage.isClosed() && activePage.browser().connected) {
+  if (activePage && !activePage.isClosed() && activeBrowser && activeBrowser.connected) {
     return activePage;
   }
 
